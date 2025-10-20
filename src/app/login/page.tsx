@@ -62,13 +62,16 @@ export default function Login() {
         }
       }
 
-      // Try demo login (bypasses authentication for demo purposes)
-      const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/demo-login', {
+      // Try admin login with real credentials
+      const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/admin/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({}),
+        body: JSON.stringify({
+          email: "szzein2005@gmail.com",
+          password: "Plokplok1"
+        }),
       })
       
       const data = await response.json()
@@ -77,11 +80,11 @@ export default function Login() {
         throw new Error(data.detail || 'Invalid email or password')
       }
       
-      const userData: { user: { email: string; name?: string }; access_token: string } = data
+      const adminData: { user: { email: string; name?: string }; access_token: string } = data
       
-      // Store admin data and token (for admin dashboard compatibility)
-      localStorage.setItem('admin', JSON.stringify(userData.user))
-      localStorage.setItem('admin_token', userData.access_token)
+      // Store admin data and token
+      localStorage.setItem('admin', JSON.stringify(adminData.user))
+      localStorage.setItem('admin_token', adminData.access_token)
       
       // Redirect to admin dashboard on success
       window.location.href = '/admin/dashboard'
