@@ -136,14 +136,28 @@ export default function AdminDashboard() {
       adminToken: adminToken ? `present (${adminToken.length} chars)` : 'missing'
     })
     
-    if (!adminData || !adminToken) {
-      console.log('❌ ADMIN DASHBOARD DEBUG: Missing admin data or token, redirecting to login')
+    console.log('🔍 ADMIN DASHBOARD DEBUG: Raw adminData from localStorage:', adminData)
+    console.log('🔍 ADMIN DASHBOARD DEBUG: Raw adminToken from localStorage:', adminToken)
+    
+    if (!adminData || !adminToken || adminData === 'undefined' || adminData === 'null') {
+      console.log('❌ ADMIN DASHBOARD DEBUG: Missing or invalid admin data/token, redirecting to login')
       window.location.href = '/admin/login'
       return
     }
     
-    console.log('✅ ADMIN DASHBOARD DEBUG: Admin data found, parsing and loading data')
-    setAdmin(JSON.parse(adminData))
+    try {
+      console.log('✅ ADMIN DASHBOARD DEBUG: Admin data found, parsing and loading data')
+      const parsedAdminData = JSON.parse(adminData)
+      console.log('🔍 ADMIN DASHBOARD DEBUG: Parsed admin data:', parsedAdminData)
+      setAdmin(parsedAdminData)
+    } catch (parseError) {
+      console.log('❌ ADMIN DASHBOARD DEBUG: Failed to parse admin data:', parseError)
+      console.log('🔍 ADMIN DASHBOARD DEBUG: Invalid adminData:', adminData)
+      localStorage.removeItem('admin')
+      localStorage.removeItem('admin_token')
+      window.location.href = '/admin/login'
+      return
+    }
     loadData()
     loadMetricsData()
   }, [])

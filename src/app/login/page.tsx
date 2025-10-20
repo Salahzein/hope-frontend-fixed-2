@@ -58,9 +58,10 @@ export default function Login() {
           console.log('✅ LOGIN DEBUG: Admin login successful')
           // Store admin data and token
           const adminData: { admin: { email: string; name?: string }; access_token: string } = data
-          localStorage.setItem('admin', JSON.stringify(adminData.admin))
+          const adminDataString = JSON.stringify(adminData.admin)
+          localStorage.setItem('admin', adminDataString)
           localStorage.setItem('admin_token', adminData.access_token)
-          console.log('🔍 LOGIN DEBUG: Admin data stored in localStorage')
+          console.log('🔍 LOGIN DEBUG: Admin data stored in localStorage:', adminDataString)
           
           // Redirect to admin dashboard
           console.log('🔍 LOGIN DEBUG: Redirecting to admin dashboard')
@@ -99,9 +100,11 @@ export default function Login() {
       const adminData: { user: { email: string; name?: string }; access_token: string } = data
       
       // Store admin data and token
-      localStorage.setItem('admin', JSON.stringify(adminData.user))
+      const adminDataString = JSON.stringify(adminData.user)
+      localStorage.setItem('admin', adminDataString)
       localStorage.setItem('admin_token', adminData.access_token)
       console.log('🔍 LOGIN DEBUG: Admin data stored in localStorage:', {
+        adminString: adminDataString,
         admin: adminData.user,
         tokenLength: adminData.access_token.length
       })
