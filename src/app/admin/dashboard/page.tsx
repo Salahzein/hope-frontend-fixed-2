@@ -145,7 +145,7 @@ export default function AdminDashboard() {
       const token = localStorage.getItem('admin_token')
       
       // Load users
-      const usersResponse = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/admin/users', {
+      const usersResponse = await fetch('https://hope-backend-final-2-production.up.railway.app/api/admin/api/admin/users', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -153,11 +153,11 @@ export default function AdminDashboard() {
       
       if (usersResponse.ok) {
         const usersData = await usersResponse.json()
-        setUsers(usersData)
+        setUsers(usersData.users || [])
       }
       
       // Load beta codes
-      const codesResponse = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/admin/beta-codes', {
+      const codesResponse = await fetch('https://hope-backend-final-2-production.up.railway.app/api/admin/api/admin/beta-codes', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -211,7 +211,7 @@ export default function AdminDashboard() {
     try {
       const token = localStorage.getItem('admin_token')
       
-      const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/admin/generate-beta-codes', {
+      const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/admin/api/admin/generate-beta-codes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
