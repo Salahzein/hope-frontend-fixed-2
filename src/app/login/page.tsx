@@ -79,12 +79,12 @@ export default function Login() {
       
       const userData: { user: { email: string; name?: string }; access_token: string } = data
       
-      // Store user data and token
-      localStorage.setItem('user', JSON.stringify(userData.user))
-      localStorage.setItem('token', userData.access_token)
+      // Store admin data and token (for admin dashboard compatibility)
+      localStorage.setItem('admin', JSON.stringify(userData.user))
+      localStorage.setItem('admin_token', userData.access_token)
       
-      // Redirect to dashboard on success
-      window.location.href = '/dashboard'
+      // Redirect to admin dashboard on success
+      window.location.href = '/admin/dashboard'
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Failed to sign in. Please try again.')
     } finally {
