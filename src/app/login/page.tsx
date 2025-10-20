@@ -43,9 +43,14 @@ export default function Login() {
           access_token: 'admin_token_' + Date.now()
         }
         
-        // Store admin data and token
-        localStorage.setItem('admin', JSON.stringify(adminData.admin))
+        // Store admin data and token (same format as admin login page)
+        const adminDataString = JSON.stringify(adminData.admin)
+        localStorage.setItem('admin', adminDataString)
         localStorage.setItem('admin_token', adminData.access_token)
+        
+        console.log('Login - Stored admin data:', adminDataString)
+        console.log('Login - Stored admin token:', adminData.access_token)
+        console.log('Login - Verifying storage:', localStorage.getItem('admin'))
         
         // Redirect to admin dashboard
         window.location.href = '/admin/dashboard'
