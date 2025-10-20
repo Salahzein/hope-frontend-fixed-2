@@ -34,7 +34,7 @@ export default function Login() {
       // Check if admin credentials
       if (formData.email === 'szzein2005@gmail.com') {
         // Try admin login
-        const response = await fetch('https://hope-3.onrender.com/api/auth/admin/login', {
+        const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/admin/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -45,29 +45,30 @@ export default function Login() {
           }),
         })
         
-        const data: { admin: { email: string; name?: string }; access_token: string } = await response.json()
+        const data = await response.json()
         
         if (response.ok) {
           // Store admin data and token
-          localStorage.setItem('admin', JSON.stringify(data.admin))
-          localStorage.setItem('admin_token', data.access_token)
+          const adminData: { admin: { email: string; name?: string }; access_token: string } = data
+          localStorage.setItem('admin', JSON.stringify(adminData.admin))
+          localStorage.setItem('admin_token', adminData.access_token)
           
           // Redirect to admin dashboard
           window.location.href = '/admin/dashboard'
           return
+        } else {
+          // Admin login failed - show error and stop loading
+          throw new Error(data.detail || 'Invalid admin credentials')
         }
       }
 
-      // Try regular user login
-      const response = await fetch('https://hope-3.onrender.com/api/auth/login', {
+      // Try demo login (bypasses authentication for demo purposes)
+      const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/demo-login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password
-        }),
+        body: JSON.stringify({}),
       })
       
       const data = await response.json()
