@@ -130,17 +130,24 @@ export default function AdminDashboard() {
     const adminData = localStorage.getItem('admin')
     const adminToken = localStorage.getItem('admin_token')
     
+    console.log('Dashboard check - adminData:', adminData)
+    console.log('Dashboard check - adminToken:', adminToken)
+    
     if (!adminData || !adminToken) {
+      console.log('Redirecting to admin login - missing data')
       window.location.href = '/admin/login'
       return
     }
     
     try {
-      setAdmin(JSON.parse(adminData))
+      const parsedAdmin = JSON.parse(adminData)
+      console.log('Parsed admin data:', parsedAdmin)
+      setAdmin(parsedAdmin)
       loadData()
       loadMetricsData()
     } catch (error) {
       console.error('Error parsing admin data:', error)
+      console.log('Redirecting to admin login - parse error')
       window.location.href = '/admin/login'
     }
   }, [])
