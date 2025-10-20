@@ -145,7 +145,7 @@ export default function AdminDashboard() {
       const token = localStorage.getItem('admin_token')
       
       // Load users
-      const usersResponse = await fetch('https://hope-2-fa3m.onrender.com/api/auth/admin/users', {
+      const usersResponse = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/admin/users', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -157,7 +157,7 @@ export default function AdminDashboard() {
       }
       
       // Load beta codes
-      const codesResponse = await fetch('https://hope-2-fa3m.onrender.com/api/auth/admin/beta-codes', {
+      const codesResponse = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/admin/beta-codes', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -180,21 +180,21 @@ export default function AdminDashboard() {
       setMetricsLoading(true)
       
       // Load platform metrics
-      const metricsResponse = await fetch('https://hope-2-fa3m.onrender.com/api/admin/metrics/platform')
+      const metricsResponse = await fetch('https://hope-backend-final-2-production.up.railway.app/api/admin/metrics/platform')
       if (metricsResponse.ok) {
         const metricsData = await metricsResponse.json()
         setPlatformMetrics(metricsData.metrics)
       }
       
       // Load cost summary
-      const costResponse = await fetch('https://hope-2-fa3m.onrender.com/api/admin/costs/summary')
+      const costResponse = await fetch('https://hope-backend-final-2-production.up.railway.app/api/admin/costs/summary')
       if (costResponse.ok) {
         const costData = await costResponse.json()
         setCostSummary(costData.cost_summary)
       }
       
       // Load recent searches
-      const searchesResponse = await fetch('https://hope-2-fa3m.onrender.com/api/admin/searches/recent?limit=10')
+      const searchesResponse = await fetch('https://hope-backend-final-2-production.up.railway.app/api/admin/searches/recent?limit=10')
       if (searchesResponse.ok) {
         const searchesData = await searchesResponse.json()
         setRecentSearches(searchesData.searches)
@@ -211,7 +211,7 @@ export default function AdminDashboard() {
     try {
       const token = localStorage.getItem('admin_token')
       
-      const response = await fetch('https://hope-2-fa3m.onrender.com/api/auth/admin/generate-beta-codes', {
+      const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/admin/generate-beta-codes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
