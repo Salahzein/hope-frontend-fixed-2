@@ -23,8 +23,12 @@ export default function Login() {
     setLoading(true)
     setError('')
 
+    console.log('🔍 LOGIN DEBUG: Starting login process')
+    console.log('🔍 LOGIN DEBUG: Form data:', formData)
+
     // Basic validation
     if (!formData.email || !formData.password) {
+      console.log('❌ LOGIN DEBUG: Validation failed - missing email or password')
       setError('Email and password are required')
       setLoading(false)
       return
@@ -33,6 +37,7 @@ export default function Login() {
     try {
       // Check if admin credentials
       if (formData.email === 'szzein2005@gmail.com') {
+        console.log('🔍 LOGIN DEBUG: Admin credentials detected, trying admin login')
         // Try admin login
         const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/admin/login', {
           method: 'POST',
@@ -45,23 +50,30 @@ export default function Login() {
           }),
         })
         
+        console.log('🔍 LOGIN DEBUG: Admin login response status:', response.status)
         const data = await response.json()
+        console.log('🔍 LOGIN DEBUG: Admin login response data:', data)
         
         if (response.ok) {
+          console.log('✅ LOGIN DEBUG: Admin login successful')
           // Store admin data and token
           const adminData: { admin: { email: string; name?: string }; access_token: string } = data
           localStorage.setItem('admin', JSON.stringify(adminData.admin))
           localStorage.setItem('admin_token', adminData.access_token)
+          console.log('🔍 LOGIN DEBUG: Admin data stored in localStorage')
           
           // Redirect to admin dashboard
+          console.log('🔍 LOGIN DEBUG: Redirecting to admin dashboard')
           window.location.href = '/admin/dashboard'
           return
         } else {
+          console.log('❌ LOGIN DEBUG: Admin login failed')
           // Admin login failed - show error and stop loading
           throw new Error(data.detail || 'Invalid admin credentials')
         }
       }
 
+      console.log('🔍 LOGIN DEBUG: Using fallback admin login with hardcoded credentials')
       // Try admin login with real credentials
       const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/admin/login', {
         method: 'POST',
@@ -74,23 +86,34 @@ export default function Login() {
         }),
       })
       
+      console.log('🔍 LOGIN DEBUG: Fallback login response status:', response.status)
       const data = await response.json()
+      console.log('🔍 LOGIN DEBUG: Fallback login response data:', data)
       
       if (!response.ok) {
+        console.log('❌ LOGIN DEBUG: Fallback login failed')
         throw new Error(data.detail || 'Invalid email or password')
       }
       
+      console.log('✅ LOGIN DEBUG: Fallback login successful')
       const adminData: { user: { email: string; name?: string }; access_token: string } = data
       
       // Store admin data and token
       localStorage.setItem('admin', JSON.stringify(adminData.user))
       localStorage.setItem('admin_token', adminData.access_token)
+      console.log('🔍 LOGIN DEBUG: Admin data stored in localStorage:', {
+        admin: adminData.user,
+        tokenLength: adminData.access_token.length
+      })
       
       // Redirect to admin dashboard on success
+      console.log('🔍 LOGIN DEBUG: Redirecting to admin dashboard')
       window.location.href = '/admin/dashboard'
     } catch (err: unknown) {
+      console.log('❌ LOGIN DEBUG: Error occurred:', err)
       setError(err instanceof Error ? err.message : 'Failed to sign in. Please try again.')
     } finally {
+      console.log('🔍 LOGIN DEBUG: Login process finished')
       setLoading(false)
     }
   }

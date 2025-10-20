@@ -126,91 +126,143 @@ export default function AdminDashboard() {
   const [metricsLoading, setMetricsLoading] = useState(false)
 
   useEffect(() => {
+    console.log('🔍 ADMIN DASHBOARD DEBUG: Component mounted, checking authentication')
     // Check if admin is logged in
     const adminData = localStorage.getItem('admin')
     const adminToken = localStorage.getItem('admin_token')
     
+    console.log('🔍 ADMIN DASHBOARD DEBUG: localStorage check:', {
+      adminData: adminData ? 'present' : 'missing',
+      adminToken: adminToken ? `present (${adminToken.length} chars)` : 'missing'
+    })
+    
     if (!adminData || !adminToken) {
+      console.log('❌ ADMIN DASHBOARD DEBUG: Missing admin data or token, redirecting to login')
       window.location.href = '/admin/login'
       return
     }
     
+    console.log('✅ ADMIN DASHBOARD DEBUG: Admin data found, parsing and loading data')
     setAdmin(JSON.parse(adminData))
     loadData()
     loadMetricsData()
   }, [])
 
   const loadData = async () => {
+    console.log('🔍 ADMIN DASHBOARD DEBUG: Starting loadData function')
     try {
       const token = localStorage.getItem('admin_token')
+      console.log('🔍 ADMIN DASHBOARD DEBUG: Token retrieved:', token ? `${token.length} chars` : 'missing')
       
       // Load users
+      console.log('🔍 ADMIN DASHBOARD DEBUG: Fetching users from API')
       const usersResponse = await fetch('https://hope-backend-final-2-production.up.railway.app/api/admin/api/admin/users', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       })
       
+      console.log('🔍 ADMIN DASHBOARD DEBUG: Users API response status:', usersResponse.status)
       if (usersResponse.ok) {
         const usersData = await usersResponse.json()
+        console.log('🔍 ADMIN DASHBOARD DEBUG: Users API response data:', usersData)
         setUsers(usersData.users || [])
+        console.log('✅ ADMIN DASHBOARD DEBUG: Users loaded successfully:', usersData.users?.length || 0)
+      } else {
+        console.log('❌ ADMIN DASHBOARD DEBUG: Users API failed:', usersResponse.status)
+        const errorText = await usersResponse.text()
+        console.log('❌ ADMIN DASHBOARD DEBUG: Users API error:', errorText)
       }
       
       // Load beta codes
+      console.log('🔍 ADMIN DASHBOARD DEBUG: Fetching beta codes from API')
       const codesResponse = await fetch('https://hope-backend-final-2-production.up.railway.app/api/admin/api/admin/beta-codes', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       })
       
+      console.log('🔍 ADMIN DASHBOARD DEBUG: Beta codes API response status:', codesResponse.status)
       if (codesResponse.ok) {
         const codesData = await codesResponse.json()
+        console.log('🔍 ADMIN DASHBOARD DEBUG: Beta codes API response data:', codesData)
         setBetaCodes(codesData)
+        console.log('✅ ADMIN DASHBOARD DEBUG: Beta codes loaded successfully:', codesData?.length || 0)
+      } else {
+        console.log('❌ ADMIN DASHBOARD DEBUG: Beta codes API failed:', codesResponse.status)
+        const errorText = await codesResponse.text()
+        console.log('❌ ADMIN DASHBOARD DEBUG: Beta codes API error:', errorText)
       }
       
-    } catch {
+    } catch (error) {
+      console.log('❌ ADMIN DASHBOARD DEBUG: Error in loadData:', error)
       setError('Failed to load data')
     } finally {
+      console.log('🔍 ADMIN DASHBOARD DEBUG: loadData finished')
       setLoading(false)
     }
   }
 
   const loadMetricsData = async () => {
+    console.log('🔍 ADMIN DASHBOARD DEBUG: Starting loadMetricsData function')
     try {
       setMetricsLoading(true)
       
       // Load platform metrics
+      console.log('🔍 ADMIN DASHBOARD DEBUG: Fetching platform metrics')
       const metricsResponse = await fetch('https://hope-backend-final-2-production.up.railway.app/api/admin/metrics/platform')
+      console.log('🔍 ADMIN DASHBOARD DEBUG: Platform metrics response status:', metricsResponse.status)
       if (metricsResponse.ok) {
         const metricsData = await metricsResponse.json()
+        console.log('🔍 ADMIN DASHBOARD DEBUG: Platform metrics data:', metricsData)
         setPlatformMetrics(metricsData.metrics)
+        console.log('✅ ADMIN DASHBOARD DEBUG: Platform metrics loaded successfully')
+      } else {
+        console.log('❌ ADMIN DASHBOARD DEBUG: Platform metrics failed:', metricsResponse.status)
       }
       
       // Load cost summary
+      console.log('🔍 ADMIN DASHBOARD DEBUG: Fetching cost summary')
       const costResponse = await fetch('https://hope-backend-final-2-production.up.railway.app/api/admin/costs/summary')
+      console.log('🔍 ADMIN DASHBOARD DEBUG: Cost summary response status:', costResponse.status)
       if (costResponse.ok) {
         const costData = await costResponse.json()
+        console.log('🔍 ADMIN DASHBOARD DEBUG: Cost summary data:', costData)
         setCostSummary(costData.cost_summary)
+        console.log('✅ ADMIN DASHBOARD DEBUG: Cost summary loaded successfully')
+      } else {
+        console.log('❌ ADMIN DASHBOARD DEBUG: Cost summary failed:', costResponse.status)
       }
       
       // Load recent searches
+      console.log('🔍 ADMIN DASHBOARD DEBUG: Fetching recent searches')
       const searchesResponse = await fetch('https://hope-backend-final-2-production.up.railway.app/api/admin/searches/recent?limit=10')
+      console.log('🔍 ADMIN DASHBOARD DEBUG: Recent searches response status:', searchesResponse.status)
       if (searchesResponse.ok) {
         const searchesData = await searchesResponse.json()
+        console.log('🔍 ADMIN DASHBOARD DEBUG: Recent searches data:', searchesData)
         setRecentSearches(searchesData.searches)
+        console.log('✅ ADMIN DASHBOARD DEBUG: Recent searches loaded successfully:', searchesData.searches?.length || 0)
+      } else {
+        console.log('❌ ADMIN DASHBOARD DEBUG: Recent searches failed:', searchesResponse.status)
       }
       
     } catch (err) {
+      console.log('❌ ADMIN DASHBOARD DEBUG: Error in loadMetricsData:', err)
       console.error('Error loading metrics:', err)
     } finally {
+      console.log('🔍 ADMIN DASHBOARD DEBUG: loadMetricsData finished')
       setMetricsLoading(false)
     }
   }
 
   const generateBetaCodes = async () => {
+    console.log('🔍 ADMIN DASHBOARD DEBUG: Starting generateBetaCodes function')
     try {
       const token = localStorage.getItem('admin_token')
+      console.log('🔍 ADMIN DASHBOARD DEBUG: Token for beta code generation:', token ? `${token.length} chars` : 'missing')
       
+      console.log('🔍 ADMIN DASHBOARD DEBUG: Fetching beta code generation API')
       const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/admin/api/admin/generate-beta-codes', {
         method: 'POST',
         headers: {
@@ -222,15 +274,21 @@ export default function AdminDashboard() {
         }),
       })
       
+      console.log('🔍 ADMIN DASHBOARD DEBUG: Beta code generation response status:', response.status)
       if (response.ok) {
         const data = await response.json()
+        console.log('🔍 ADMIN DASHBOARD DEBUG: Beta code generation response data:', data)
         alert(`Generated ${data.codes.length} new beta codes:\n${data.codes.join('\n')}`)
+        console.log('✅ ADMIN DASHBOARD DEBUG: Beta codes generated successfully')
         loadData() // Reload data
       } else {
+        console.log('❌ ADMIN DASHBOARD DEBUG: Beta code generation failed:', response.status)
         const errorData = await response.json()
+        console.log('❌ ADMIN DASHBOARD DEBUG: Beta code generation error:', errorData)
         alert(`Error: ${errorData.detail}`)
       }
-    } catch {
+    } catch (error) {
+      console.log('❌ ADMIN DASHBOARD DEBUG: Error in generateBetaCodes:', error)
       alert('Failed to generate beta codes')
     }
   }
