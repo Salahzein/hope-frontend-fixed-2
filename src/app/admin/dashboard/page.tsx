@@ -115,7 +115,18 @@ interface RecentSearch {
 
 export default function AdminDashboard() {
   const [users, setUsers] = useState<User[]>([])
-  const [betaCodes, setBetaCodes] = useState<BetaCode[]>([])
+  const [betaCodes, setBetaCodes] = useState<BetaCode[]>([
+    { id: 1, code: 'HOPE-77CTG8WK', is_used: false, used_by_user_id: null, created_at: new Date().toISOString(), used_at: null },
+    { id: 2, code: 'HOPE-SZ9VFODG', is_used: false, used_by_user_id: null, created_at: new Date().toISOString(), used_at: null },
+    { id: 3, code: 'HOPE-PRBSU3HJ', is_used: false, used_by_user_id: null, created_at: new Date().toISOString(), used_at: null },
+    { id: 4, code: 'HOPE-CVLN3NCA', is_used: false, used_by_user_id: null, created_at: new Date().toISOString(), used_at: null },
+    { id: 5, code: 'HOPE-FJCACC89', is_used: false, used_by_user_id: null, created_at: new Date().toISOString(), used_at: null },
+    { id: 6, code: 'HOPE-UDB9CA93', is_used: false, used_by_user_id: null, created_at: new Date().toISOString(), used_at: null },
+    { id: 7, code: 'HOPE-XT3YNX27', is_used: false, used_by_user_id: null, created_at: new Date().toISOString(), used_at: null },
+    { id: 8, code: 'HOPE-DOAXG25Q', is_used: false, used_by_user_id: null, created_at: new Date().toISOString(), used_at: null },
+    { id: 9, code: 'HOPE-D8IFP4GR', is_used: false, used_by_user_id: null, created_at: new Date().toISOString(), used_at: null },
+    { id: 10, code: 'HOPE-0S4FNMFN', is_used: false, used_by_user_id: null, created_at: new Date().toISOString(), used_at: null }
+  ])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [newCodeQuantity, setNewCodeQuantity] = useState(5)
@@ -223,7 +234,7 @@ export default function AdminDashboard() {
     try {
       const token = localStorage.getItem('admin_token')
       
-      const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/admin/generate-beta-codes', {
+      const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/admin/generate-beta-codes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
