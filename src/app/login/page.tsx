@@ -33,28 +33,35 @@ export default function Login() {
     try {
       // Check if admin credentials
       if (formData.email === 'szzein2005@gmail.com' && formData.password === 'Plokplok1') {
-        // Create admin session directly (bypassing backend for now)
-        const adminData = {
-          admin: {
-            email: formData.email,
-            name: 'Admin User',
-            role: 'admin'
+        // Use real backend admin authentication
+        const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/admin/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-          access_token: 'admin_token_' + Date.now()
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password
+          }),
+        })
+        
+        const data = await response.json()
+        
+        if (response.ok) {
+          // Store real admin data and token from backend
+          localStorage.setItem('admin', JSON.stringify(data.user))
+          localStorage.setItem('admin_token', data.access_token)
+          
+          console.log('Login - Stored real admin data:', data.user)
+          console.log('Login - Stored real admin token:', data.access_token)
+          
+          // Redirect to admin dashboard
+          window.location.href = '/admin/dashboard'
+          return
+        } else {
+          // Admin login failed - show error and stop loading
+          throw new Error(data.detail || 'Invalid admin credentials')
         }
-        
-        // Store admin data and token (same format as admin login page)
-        const adminDataString = JSON.stringify(adminData.admin)
-        localStorage.setItem('admin', adminDataString)
-        localStorage.setItem('admin_token', adminData.access_token)
-        
-        console.log('Login - Stored admin data:', adminDataString)
-        console.log('Login - Stored admin token:', adminData.access_token)
-        console.log('Login - Verifying storage:', localStorage.getItem('admin'))
-        
-        // Redirect to admin dashboard
-        window.location.href = '/admin/dashboard'
-        return
       } else if (formData.email === 'szzein2005@gmail.com') {
         // Wrong password for admin
         throw new Error('Invalid admin password')
