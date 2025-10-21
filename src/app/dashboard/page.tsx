@@ -382,16 +382,16 @@ export default function Dashboard() {
                     u/{lead.author} • r/{lead.subreddit} • {formatDate(lead.created_utc)} • Score: {lead.score}
                   </div>
                   
-                  <p className="text-gray-700 mb-3">
+                  {/* <p className="text-gray-700 mb-3">
                     {lead.snippet}
-                  </p>
+                  </p> */}
                   
-                  {lead.ai_summary && (
+                  {/* {lead.ai_summary && (
                     <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3">
                       <h4 className="text-sm font-semibold text-blue-800 mb-1">Summary:</h4>
                       <p className="text-sm text-blue-700">{lead.ai_summary}</p>
                     </div>
-                  )}
+                  )} */}
                   
                   <div className="flex items-center justify-between">
                     <div className="flex flex-wrap gap-2">
