@@ -67,7 +67,25 @@ export default function Login() {
         throw new Error('Invalid admin password')
       }
 
-      // Try demo login (bypasses authentication for demo purposes)
+      // Check for frontend-stored user account
+      const storedUser = localStorage.getItem('user')
+      if (storedUser) {
+        const userData = JSON.parse(storedUser)
+        
+        // Check if email matches
+        if (userData.email === formData.email) {
+          // For frontend users, we'll just restore their session
+          // In a real app, you'd verify the password hash
+          localStorage.setItem('user', JSON.stringify(userData))
+          localStorage.setItem('token', 'demo_token_' + Date.now())
+          
+          // Redirect to dashboard on success
+          window.location.href = '/dashboard'
+          return
+        }
+      }
+      
+      // If no frontend user found, try demo login as fallback
       const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/demo-login', {
         method: 'POST',
         headers: {
