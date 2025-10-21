@@ -223,7 +223,7 @@ export default function AdminDashboard() {
     try {
       const token = localStorage.getItem('admin_token')
       
-      const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/admin/generate-beta-codes', {
+      const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/admin/generate-beta-codes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
