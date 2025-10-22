@@ -48,6 +48,7 @@ export default function Dashboard() {
   const [userId, setUserId] = useState<string>('')
   const [user, setUser] = useState<{ email: string; name?: string } | null>(null)
   const [showWelcome, setShowWelcome] = useState(false)
+  const [searchCooldown, setSearchCooldown] = useState(0)
 
   // Generate or retrieve user ID from session storage
   useEffect(() => {
@@ -96,6 +97,26 @@ export default function Dashboard() {
     loadOptions()
   }, [])
 
+  // Countdown timer for search cooldown
+  useEffect(() => {
+    let interval: NodeJS.Timeout
+    if (searchCooldown > 0) {
+      interval = setInterval(() => {
+        setSearchCooldown(prev => {
+          if (prev <= 1) {
+            return 0
+          }
+          return prev - 1
+        })
+      }, 1000)
+    }
+    return () => {
+      if (interval) {
+        clearInterval(interval)
+      }
+    }
+  }, [searchCooldown])
+
 
   const handleBusinessChange = (business: string) => {
     setSelectedBusiness(business)
@@ -112,6 +133,11 @@ export default function Dashboard() {
   }
 
   const searchLeads = async () => {
+    if (searchCooldown > 0) {
+      setError(`Please wait ${searchCooldown} seconds before searching again`)
+      return
+    }
+
     if (!selectedBusiness && !selectedIndustry) {
       setError('Please select either a business or industry')
       return
@@ -152,8 +178,17 @@ export default function Dashboard() {
         throw new Error(errorData.detail || `HTTP error! status: ${response.status}`)
       }
 
+      if (response.status === 429) {
+        const errorData = await response.json()
+        setError(errorData.detail || 'Rate limit exceeded. Please wait before searching again.')
+        return
+      }
+
       const data: SearchResponse = await response.json()
       setResults(data)
+      
+      // Set 60-second cooldown after successful search
+      setSearchCooldown(60)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred')
     } finally {
@@ -294,10 +329,12 @@ export default function Dashboard() {
 
             <button
               onClick={searchLeads}
-              disabled={loading || !canSearch}
+              disabled={loading || !canSearch || searchCooldown > 0}
               className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
-              {loading ? `Finding ${resultCount} Quality Leads...` : `Find ${resultCount} Quality Leads`}
+              {loading ? `Finding ${resultCount} Quality Leads...` : 
+               searchCooldown > 0 ? `Wait ${searchCooldown}s before next search` : 
+               `Find ${resultCount} Quality Leads`}
             </button>
           </div>
         </div>
