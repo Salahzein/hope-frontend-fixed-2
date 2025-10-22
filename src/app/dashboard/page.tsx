@@ -364,7 +364,7 @@ export default function Dashboard() {
                     <h3 className="text-lg font-semibold text-gray-900 flex-1">
                       {lead.title}
                     </h3>
-                    <div className="flex gap-2 ml-4">
+                    {/* <div className="flex gap-2 ml-4">
                       {lead.ai_relevance_score && (
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getRelevanceColor(lead.ai_relevance_score)}`}>
                           Relevance: {lead.ai_relevance_score}%
@@ -375,7 +375,7 @@ export default function Dashboard() {
                           {lead.urgency_level} Urgency
                         </span>
                       )}
-                    </div>
+                    </div> */}
                   </div>
                   
                   <div className="text-sm text-gray-600 mb-2">
