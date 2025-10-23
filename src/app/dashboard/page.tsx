@@ -44,8 +44,8 @@ export default function Home() {
     const loadOptions = async () => {
       try {
         const [businessRes, industryRes] = await Promise.all([
-          fetch('https://soothing-simplicity-production.up.railway.app/api/leads/business-options'),
-          fetch('https://soothing-simplicity-production.up.railway.app/api/leads/industry-options')
+          fetch('https://hope-backend-final-2-production.up.railway.app/api/leads/business-options'),
+          fetch('https://hope-backend-final-2-production.up.railway.app/api/leads/industry-options')
         ])
         
         const businessData: BusinessOptions = await businessRes.json()
@@ -90,7 +90,7 @@ export default function Home() {
     setError('')
     
     try {
-      const response = await fetch('https://soothing-simplicity-production.up.railway.app/api/leads/search', {
+      const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/leads/search', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ export default function Home() {
     setError('')
     
     try {
-      const response = await fetch('https://soothing-simplicity-production.up.railway.app/api/leads/export/csv', {
+      const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/leads/export/csv', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -180,7 +180,7 @@ export default function Home() {
     setError('')
     
     try {
-      const response = await fetch('https://soothing-simplicity-production.up.railway.app/api/leads/export/excel', {
+      const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/leads/export/excel', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -405,4 +405,5 @@ export default function Home() {
     </div>
   )
 }
+
 
