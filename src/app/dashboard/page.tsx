@@ -137,10 +137,8 @@ export default function Home() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          business: selectedBusiness || undefined,
-          industry: selectedIndustry || undefined,
-          problem_description: problemDescription.trim(),
-          result_count: limit
+          results: results.leads,
+          format: 'csv'
         })
       })
 
@@ -186,10 +184,8 @@ export default function Home() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          business: selectedBusiness || undefined,
-          industry: selectedIndustry || undefined,
-          problem_description: problemDescription.trim(),
-          result_count: limit
+          results: results.leads,
+          format: 'excel'
         })
       })
 
@@ -405,6 +401,7 @@ export default function Home() {
     </div>
   )
 }
+
 
 
 
