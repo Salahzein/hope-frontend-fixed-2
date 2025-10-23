@@ -140,7 +140,7 @@ export default function Home() {
           business: selectedBusiness || undefined,
           industry: selectedIndustry || undefined,
           problem_description: problemDescription.trim(),
-          limit: limit
+          result_count: limit
         })
       })
 
@@ -189,7 +189,7 @@ export default function Home() {
           business: selectedBusiness || undefined,
           industry: selectedIndustry || undefined,
           problem_description: problemDescription.trim(),
-          limit: limit
+          result_count: limit
         })
       })
 
@@ -405,5 +405,6 @@ export default function Home() {
     </div>
   )
 }
+
 
 
