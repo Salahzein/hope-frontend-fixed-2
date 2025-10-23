@@ -137,7 +137,7 @@ export default function Home() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          results: results.leads,
+          results: results?.leads || [],
           format: 'csv'
         })
       })
@@ -184,7 +184,7 @@ export default function Home() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          results: results.leads,
+          results: results?.leads || [],
           format: 'excel'
         })
       })
@@ -401,6 +401,7 @@ export default function Home() {
     </div>
   )
 }
+
 
 
 
