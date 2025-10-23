@@ -33,7 +33,7 @@ export default function Home() {
   const [selectedBusiness, setSelectedBusiness] = useState('')
   const [selectedIndustry, setSelectedIndustry] = useState('')
   const [problemDescription, setProblemDescription] = useState('')
-  const [limit, setLimit] = useState(10)
+  const [limit, setLimit] = useState(20)
   const [loading, setLoading] = useState(false)
   const [exporting, setExporting] = useState(false)
   const [results, setResults] = useState<SearchResponse | null>(null)
@@ -44,8 +44,8 @@ export default function Home() {
     const loadOptions = async () => {
       try {
         const [businessRes, industryRes] = await Promise.all([
-          fetch('http://127.0.0.1:8000/api/leads/business-options'),
-          fetch('http://127.0.0.1:8000/api/leads/industry-options')
+          fetch('https://soothing-simplicity-production.up.railway.app/api/leads/business-options'),
+          fetch('https://soothing-simplicity-production.up.railway.app/api/leads/industry-options')
         ])
         
         const businessData: BusinessOptions = await businessRes.json()
@@ -90,7 +90,7 @@ export default function Home() {
     setError('')
     
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/leads/search', {
+      const response = await fetch('https://soothing-simplicity-production.up.railway.app/api/leads/search', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ export default function Home() {
     setError('')
     
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/leads/export/csv', {
+      const response = await fetch('https://soothing-simplicity-production.up.railway.app/api/leads/export/csv', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -180,7 +180,7 @@ export default function Home() {
     setError('')
     
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/leads/export/excel', {
+      const response = await fetch('https://soothing-simplicity-production.up.railway.app/api/leads/export/excel', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -293,10 +293,10 @@ export default function Home() {
                 onChange={(e) => setLimit(Number(e.target.value))}
                 className="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value={5}>5 results</option>
-                <option value={10}>10 results</option>
                 <option value={20}>20 results</option>
                 <option value={50}>50 results</option>
+                <option value={100}>100 results</option>
+                <option value={150}>150 results</option>
               </select>
             </div>
 
