@@ -1,9 +1,10 @@
 'use client'
 
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 export default function Home() {
-  // Domain deployment ready - hope.archi
+
   // Animation variants
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
@@ -11,6 +12,13 @@ export default function Home() {
     transition: { duration: 0.6 }
   }
 
+  const staggerContainer = {
+    animate: {
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  }
 
   const glowHover = {
     hover: {
@@ -158,7 +166,7 @@ export default function Home() {
                   </div>
                   <div className="flex items-start">
                     <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3"></div>
-                    <p className="text-gray-300">No way to know who&apos;s actively seeking help</p>
+                    <p className="text-gray-300">No way to know who's actively seeking help</p>
                   </div>
                 </div>
               </div>
@@ -272,7 +280,7 @@ export default function Home() {
           >
             <h2 className="text-4xl font-bold mb-4">Platform Status</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              We&apos;re expanding across multiple platforms to find businesses wherever they discuss their challenges
+              We're expanding across multiple platforms to find businesses wherever they discuss their challenges
             </p>
           </motion.div>
 
