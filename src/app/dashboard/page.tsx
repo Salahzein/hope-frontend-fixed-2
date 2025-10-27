@@ -11,6 +11,7 @@ interface Lead {
   created_utc: number
   score: number
   matched_keywords: string[]
+  ai_relevance_score?: number
 }
 
 interface SearchResponse {
@@ -413,7 +414,14 @@ export default function Home() {
       </div>
     </div>
   )
-}
+
+
+
+
+
+
+
+
 
 
 
