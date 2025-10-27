@@ -229,7 +229,9 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">ScopeIQ Dashboard</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Reddit Lead Finder MVP
+          </h1>
           <p className="text-lg text-gray-600">
             Find businesses struggling with client acquisition on Reddit
           </p>
@@ -376,7 +378,7 @@ export default function Home() {
                       {lead.title}
                     </h3>
                     <span className="text-sm text-gray-500 ml-4">
-                      Score: {lead.score}
+                      Score: {lead.ai_relevance_score}
                     </span>
                   </div>
                   
@@ -410,6 +412,13 @@ export default function Home() {
     </div>
   )
 }
+
+
+
+
+
+
+
 
 
 
