@@ -172,7 +172,7 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Hope */}
+            {/* ScopeIQ */}
             <motion.div 
               initial={{ opacity: 0, x: 60 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -188,7 +188,7 @@ export default function Home() {
                   <div className="w-12 h-12 bg-[#00d4aa]/20 rounded-full flex items-center justify-center mr-4">
                     <span className="text-[#00d4aa] text-2xl">✅</span>
                   </div>
-                  <h3 className="text-2xl font-bold text-[#00d4aa]">Hope</h3>
+                  <h3 className="text-2xl font-bold text-[#00d4aa]">ScopeIQ</h3>
                 </div>
                 <div className="space-y-4">
                   <div className="flex items-start">
