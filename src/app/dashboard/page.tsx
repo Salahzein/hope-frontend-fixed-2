@@ -90,6 +90,16 @@ export default function Home() {
     setError('')
     
     try {
+      // Generate or get unique user ID from localStorage
+      const userId = (() => {
+        let id = localStorage.getItem('hope_user_id');
+        if (!id) {
+          id = crypto.randomUUID();
+          localStorage.setItem('hope_user_id', id);
+        }
+        return id;
+      })();
+      
       const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/leads/search', {
         method: 'POST',
         headers: {
@@ -99,7 +109,8 @@ export default function Home() {
           business: selectedBusiness || undefined,
           industry: selectedIndustry || undefined,
           problem_description: problemDescription.trim(),
-          result_count: limit
+          result_count: limit,
+          user_id: userId
         })
       })
 
@@ -401,7 +412,6 @@ export default function Home() {
     </div>
   )
 }
-
 
 
 
