@@ -62,7 +62,7 @@ export default function Home() {
               {...fadeInUp}
               className="text-5xl md:text-6xl font-bold mb-6"
             >
-              Turn Struggling Businesses Into{' '}
+              Turn Struggling Businesses Into clients{' '}
               <span className="text-[#00d4aa] bg-gradient-to-r from-[#00d4aa] to-[#00b894] bg-clip-text text-transparent">
                 Paying Clients
               </span>
@@ -124,7 +124,7 @@ export default function Home() {
             viewport={{ once: false }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold mb-4">
+            <h2 className="text-4xl font-bold mb-4">Why ScopeIQ?</h2>
               Stop Cold Outreach. Start Warm Conversations.
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -433,7 +433,7 @@ export default function Home() {
             viewport={{ once: false }}
           >
             <h2 className="text-5xl md:text-6xl font-bold mb-6">
-              Ready to Find Your Next{' '}
+              Ready to Find Your Next Lead with scopeIQ{' '}
               <span className="bg-gradient-to-r from-[#00d4aa] to-[#00b894] bg-clip-text text-transparent">
                 Client?
               </span>
