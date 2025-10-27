@@ -377,9 +377,11 @@ export default function Home() {
                     <h3 className="text-lg font-semibold text-gray-900 flex-1">
                       {lead.title}
                     </h3>
-                    <span className="text-sm text-gray-500 ml-4">
-                      Score: {lead.ai_relevance_score}
-                    </span>
+                    {lead.ai_relevance_score !== undefined && (
+                      <span className="text-sm text-gray-500 ml-4">
+                        Score: {lead.ai_relevance_score}
+                      </span>
+                    )}
                   </div>
                   
                   <div className="text-sm text-gray-600 mb-2">
@@ -411,7 +413,13 @@ export default function Home() {
       </div>
     </div>
   )
-}
+
+
+
+
+
+
+
 
 
 
