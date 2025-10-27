@@ -124,7 +124,7 @@ export default function Home() {
             viewport={{ once: false }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold mb-4">Why ScopeIQ?</h2>
+            <h2 className="text-4xl font-bold mb-4">
               Stop Cold Outreach. Start Warm Conversations.
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
