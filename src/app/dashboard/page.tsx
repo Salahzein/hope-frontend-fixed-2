@@ -40,16 +40,7 @@ export default function Home() {
   const [results, setResults] = useState<SearchResponse | null>(null)
   const [error, setError] = useState('')
   const [searchCount, setSearchCount] = useState(0)
-  const [showPopup, setShowPopup] = useState(false)
-  const [hidePopupPermanently, setHidePopupPermanently] = useState(false)
-  
-  // Check localStorage for popup preference on mount
-  useEffect(() => {
-    const hidePopup = localStorage.getItem('hideSearchPopup')
-    if (hidePopup === 'true') {
-      setHidePopupPermanently(true)
-    }
-  }, [])
+  const [showTier4Tip, setShowTier4Tip] = useState(false)
 
   // Load business and industry options on component mount
   useEffect(() => {
@@ -134,9 +125,15 @@ export default function Home() {
       const data: SearchResponse = await response.json()
       setResults(data)
       
-      // Show popup after 4th search if not permanently hidden
-      if (searchCount === 4 && !hidePopupPermanently) {
-        setShowPopup(true)
+      // Show Tier 4 tip after 4th search (first time only)
+      if (searchCount === 4) {
+        const hasSeenTip = localStorage.getItem('hasSeenTier4Tip')
+        const hideTip = localStorage.getItem('hideTier4Tip')
+        
+        if (!hasSeenTip && !hideTip) {
+          setShowTier4Tip(true)
+          localStorage.setItem('hasSeenTier4Tip', 'true')
+        }
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred')
@@ -243,10 +240,9 @@ export default function Home() {
     return new Date(timestamp * 1000).toLocaleDateString()
   }
   
-  const handleHidePopup = () => {
-    setShowPopup(false)
-    localStorage.setItem('hideSearchPopup', 'true')
-    setHidePopupPermanently(true)
+  const handleHideTier4Tip = () => {
+    setShowTier4Tip(false)
+    localStorage.setItem('hideTier4Tip', 'true')
   }
 
   return (
@@ -381,6 +377,28 @@ export default function Home() {
           </div>
         )}
 
+        {showTier4Tip && (
+          <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded mb-6">
+            <div className="flex items-start justify-between">
+              <div className="flex items-start">
+                <span className="text-xl mr-3">💡</span>
+                <div>
+                  <p className="text-sm font-semibold text-blue-800 mb-1">Tip:</p>
+                  <p className="text-sm text-blue-700">
+                    Try different phrasings to discover new leads!
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={handleHideTier4Tip}
+                className="ml-4 bg-blue-600 text-white text-xs px-3 py-1 rounded hover:bg-blue-700 transition-colors whitespace-nowrap"
+              >
+                Don&apos;t show this again
+              </button>
+            </div>
+          </div>
+        )}
+
         {results && (
           <div className="bg-white rounded-lg shadow-md p-6">
             <div className="flex justify-between items-center mb-4">
@@ -451,33 +469,13 @@ export default function Home() {
           </div>
         )}
       </div>
-      
-      {showPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-xl p-6 max-w-md mx-4">
-            <div className="flex items-start mb-4">
-              <span className="text-2xl mr-3">💡</span>
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900">Tip</h3>
-              </div>
-            </div>
-            <p className="text-gray-700 mb-6">
-              Try different phrasings to discover new leads!
-            </p>
-            <div className="flex justify-end">
-              <button
-                onClick={handleHidePopup}
-                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-              >
-                Don&apos;t show this again
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
+
+
+
+
 
 
 
