@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ScopeIQ - AI-Powered Lead Generation",
-  description: "Find high-quality leads with AI-powered relevance matching",
+  title: "ScopeIQ - Lead Discovery",
+  description: "Discover businesses actively seeking your solutions",
 };
 
 export default function RootLayout({
@@ -32,3 +32,4 @@ export default function RootLayout({
     </html>
   );
 }
+
