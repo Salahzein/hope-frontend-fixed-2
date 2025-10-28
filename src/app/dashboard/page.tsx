@@ -39,6 +39,7 @@ export default function Home() {
   const [exporting, setExporting] = useState(false)
   const [results, setResults] = useState<SearchResponse | null>(null)
   const [error, setError] = useState('')
+  const [searchCount, setSearchCount] = useState(0)
 
   // Load business and industry options on component mount
   useEffect(() => {
@@ -89,6 +90,7 @@ export default function Home() {
     
     setLoading(true)
     setError('')
+    setSearchCount(prev => prev + 1)
     
     try {
       // Generate or get unique user ID from localStorage
@@ -231,10 +233,13 @@ export default function Home() {
       <div className="max-w-4xl mx-auto px-4">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Reddit Lead Finder MVP
+            ScopeIQ
           </h1>
           <p className="text-lg text-gray-600">
-            Find businesses struggling with client acquisition on Reddit
+            AI-Powered Lead Discovery Platform
+          </p>
+          <p className="text-xs text-gray-500 mt-1">
+            Beta - Powered by Reddit data
           </p>
         </div>
 
@@ -307,6 +312,24 @@ export default function Home() {
                 <option value={150}>150 results</option>
               </select>
             </div>
+
+            {searchCount >= 4 && (
+              <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                <div className="flex items-start">
+                  <span className="text-2xl mr-3">💡</span>
+                  <div>
+                    <p className="text-sm font-semibold text-blue-800 mb-2">
+                      Pro Tips for Better Results:
+                    </p>
+                    <ul className="text-sm text-blue-700 space-y-1 list-disc list-inside">
+                      <li>Use specific terms like "struggling", "can't", "need help", "looking for"</li>
+                      <li>Be concrete: "can't find first customers" vs "growth issues"</li>
+                      <li>Try different phrasings to discover new leads</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            )}
 
             <div className="flex space-x-4">
               <button
