@@ -42,6 +42,17 @@ export default function Home() {
   const [searchCount, setSearchCount] = useState(0)
   const [showTier4Tip, setShowTier4Tip] = useState(false)
 
+  // Check authentication on mount
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    const user = localStorage.getItem('user')
+    
+    if (!token || !user) {
+      // Not logged in, redirect to login
+      window.location.href = '/login'
+    }
+  }, [])
+
   // Load business and industry options on component mount
   useEffect(() => {
     const loadOptions = async () => {
@@ -339,7 +350,6 @@ export default function Home() {
                   <option value={20}>20 results</option>
                   <option value={50}>50 results</option>
                   <option value={100}>100 results</option>
-                  <option value={150}>150 results</option>
                 </select>
             </div>
 
