@@ -245,42 +245,42 @@ export default function Home() {
 
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                 Business Type
-              </label>
-              <select
-                value={selectedBusiness}
-                onChange={(e) => handleBusinessChange(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                </label>
+                <select
+                  value={selectedBusiness}
+                  onChange={(e) => handleBusinessChange(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">Select a business type</option>
                 {businessOptions.map((business) => (
                   <option key={business} value={business}>
                     {business}
                   </option>
-                ))}
-              </select>
-            </div>
+                  ))}
+                </select>
+              </div>
 
             <div className="text-center text-gray-500">OR</div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                 Industry
-              </label>
-              <select
-                value={selectedIndustry}
-                onChange={(e) => handleIndustryChange(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                </label>
+                <select
+                  value={selectedIndustry}
+                  onChange={(e) => handleIndustryChange(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">Select an industry</option>
                 {industryOptions.map((industry) => (
                   <option key={industry} value={industry}>
                     {industry}
                   </option>
-                ))}
-              </select>
+                  ))}
+                </select>
             </div>
 
             <div>
@@ -296,21 +296,21 @@ export default function Home() {
                 onKeyPress={(e) => e.key === 'Enter' && searchLeads()}
               />
             </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                 Number of results
-              </label>
-              <select
+                </label>
+                <select
                 value={limit}
                 onChange={(e) => setLimit(Number(e.target.value))}
                 className="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value={20}>20 results</option>
-                <option value={50}>50 results</option>
-                <option value={100}>100 results</option>
-                <option value={150}>150 results</option>
-              </select>
+                >
+                  <option value={20}>20 results</option>
+                  <option value={50}>50 results</option>
+                  <option value={100}>100 results</option>
+                  <option value={150}>150 results</option>
+                </select>
             </div>
 
             {searchCount >= 4 && (
@@ -322,18 +322,18 @@ export default function Home() {
                       Pro Tips for Better Results:
                     </p>
                     <ul className="text-sm text-blue-700 space-y-1 list-disc list-inside">
-                      <li>Use specific terms like "struggling", "can't", "need help", "looking for"</li>
-                      <li>Be concrete: "can't find first customers" vs "growth issues"</li>
+                      <li>Use specific terms like &quot;struggling&quot;, &quot;can&apos;t&quot;, &quot;need help&quot;, &quot;looking for&quot;</li>
+                      <li>Be concrete: &quot;can&apos;t find first customers&quot; vs &quot;growth issues&quot;</li>
                       <li>Try different phrasings to discover new leads</li>
                     </ul>
                   </div>
-                </div>
               </div>
+            </div>
             )}
 
             <div className="flex space-x-4">
-              <button
-                onClick={searchLeads}
+            <button
+              onClick={searchLeads}
                 disabled={loading}
                 className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-blue-300 transition-colors"
               >
@@ -354,7 +354,7 @@ export default function Home() {
                 className="bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 disabled:bg-purple-300 transition-colors"
               >
                 {exporting ? 'Exporting...' : 'Export Excel'}
-              </button>
+            </button>
             </div>
           </div>
         </div>
@@ -369,9 +369,9 @@ export default function Home() {
           <div className="bg-white rounded-lg shadow-md p-6">
             <div className="flex justify-between items-center mb-4">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">
+              <h2 className="text-2xl font-bold text-gray-900">
                   Found {results.total_found} Leads
-                </h2>
+              </h2>
                 <p className="text-gray-600">{results.message}</p>
               </div>
               
@@ -392,7 +392,7 @@ export default function Home() {
                   {exporting ? 'Exporting...' : 'Export Excel'}
                 </button>
               </div>
-            </div>
+              </div>
             
             <div className="space-y-4">
               {results.leads.map((lead, index) => (
@@ -404,8 +404,8 @@ export default function Home() {
                     {lead.ai_relevance_score !== undefined && (
                       <span className="text-sm text-gray-500 ml-4">
                         Score: {lead.ai_relevance_score}
-                      </span>
-                    )}
+                        </span>
+                      )}
                   </div>
                   
                   <div className="text-sm text-gray-600 mb-2">
@@ -418,12 +418,12 @@ export default function Home() {
                   
                   <div className="flex items-center justify-between">
                     <div className="text-sm text-gray-500">
-                      Keywords: {lead.matched_keywords.join(', ')}
+                        Keywords: {lead.matched_keywords.join(', ')}
                     </div>
                     <a
                       href={lead.permalink}
-                      target="_blank"
-                      rel="noopener noreferrer"
+          target="_blank"
+          rel="noopener noreferrer"
                       className="text-blue-600 hover:text-blue-800 text-sm font-medium"
                     >
                       View Post →
@@ -438,6 +438,9 @@ export default function Home() {
     </div>
   )
 }
+
+
+
 
 
 
