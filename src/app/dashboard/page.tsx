@@ -40,6 +40,16 @@ export default function Home() {
   const [results, setResults] = useState<SearchResponse | null>(null)
   const [error, setError] = useState('')
   const [searchCount, setSearchCount] = useState(0)
+  const [showPopup, setShowPopup] = useState(false)
+  const [hidePopupPermanently, setHidePopupPermanently] = useState(false)
+  
+  // Check localStorage for popup preference on mount
+  useEffect(() => {
+    const hidePopup = localStorage.getItem('hideSearchPopup')
+    if (hidePopup === 'true') {
+      setHidePopupPermanently(true)
+    }
+  }, [])
 
   // Load business and industry options on component mount
   useEffect(() => {
@@ -123,6 +133,11 @@ export default function Home() {
 
       const data: SearchResponse = await response.json()
       setResults(data)
+      
+      // Show popup after 4th search if not permanently hidden
+      if (searchCount === 4 && !hidePopupPermanently) {
+        setShowPopup(true)
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred')
     } finally {
@@ -227,6 +242,12 @@ export default function Home() {
   const formatDate = (timestamp: number) => {
     return new Date(timestamp * 1000).toLocaleDateString()
   }
+  
+  const handleHidePopup = () => {
+    setShowPopup(false)
+    localStorage.setItem('hideSearchPopup', 'true')
+    setHidePopupPermanently(true)
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -236,19 +257,32 @@ export default function Home() {
             ScopeIQ
           </h1>
           <p className="text-lg text-gray-600">
-            AI-Powered Lead Discovery Platform
+            Discover businesses actively seeking your solutions
           </p>
           <p className="text-xs text-gray-500 mt-1">
             Beta - Powered by Reddit data
           </p>
         </div>
 
+        <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded mb-6">
+          <div className="flex items-start">
+            <span className="text-xl mr-3">💡</span>
+            <div>
+              <p className="text-sm font-semibold text-blue-800 mb-1">Pro Tips:</p>
+              <ul className="text-sm text-blue-700 space-y-1 list-disc list-inside">
+                <li>Use specific terms like &quot;struggling&quot;, &quot;can&apos;t&quot;, &quot;need help&quot;, &quot;looking for&quot;</li>
+                <li>Be concrete: &quot;can&apos;t find first customers&quot; vs &quot;growth issues&quot;</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Business Type
-                </label>
+              </label>
                 <select
                   value={selectedBusiness}
                   onChange={(e) => handleBusinessChange(e.target.value)}
@@ -312,24 +346,6 @@ export default function Home() {
                   <option value={150}>150 results</option>
                 </select>
             </div>
-
-            {searchCount >= 4 && (
-              <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
-                <div className="flex items-start">
-                  <span className="text-2xl mr-3">💡</span>
-                  <div>
-                    <p className="text-sm font-semibold text-blue-800 mb-2">
-                      Pro Tips for Better Results:
-                    </p>
-                    <ul className="text-sm text-blue-700 space-y-1 list-disc list-inside">
-                      <li>Use specific terms like &quot;struggling&quot;, &quot;can&apos;t&quot;, &quot;need help&quot;, &quot;looking for&quot;</li>
-                      <li>Be concrete: &quot;can&apos;t find first customers&quot; vs &quot;growth issues&quot;</li>
-                      <li>Try different phrasings to discover new leads</li>
-                    </ul>
-                  </div>
-              </div>
-            </div>
-            )}
 
             <div className="flex space-x-4">
             <button
@@ -435,9 +451,36 @@ export default function Home() {
           </div>
         )}
       </div>
+      
+      {showPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-xl p-6 max-w-md mx-4">
+            <div className="flex items-start mb-4">
+              <span className="text-2xl mr-3">💡</span>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Tip</h3>
+              </div>
+            </div>
+            <p className="text-gray-700 mb-6">
+              Try different phrasings to discover new leads!
+            </p>
+            <div className="flex justify-end">
+              <button
+                onClick={handleHidePopup}
+                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+              >
+                Don&apos;t show this again
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
+
+
+
 
 
 
