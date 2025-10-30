@@ -48,8 +48,8 @@ export default function AdminLogin() {
         throw new Error(data.detail || 'Invalid admin credentials')
       }
       
-      // Store admin data and token
-      localStorage.setItem('admin', JSON.stringify(data.admin))
+      // Store admin data and token (backend returns `user` for admin login)
+      localStorage.setItem('admin', JSON.stringify(data.user))
       localStorage.setItem('admin_token', data.access_token)
       
       // Redirect to admin dashboard
@@ -147,3 +147,4 @@ export default function AdminLogin() {
     </div>
   )
 }
+
