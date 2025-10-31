@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { API_BASE_URL } from '@/config/api'
 
 interface Lead {
   title: string
@@ -58,8 +59,8 @@ export default function Home() {
     const loadOptions = async () => {
       try {
         const [businessRes, industryRes] = await Promise.all([
-          fetch('https://hope-backend-final-2-production.up.railway.app/api/leads/business-options'),
-          fetch('https://hope-backend-final-2-production.up.railway.app/api/leads/industry-options')
+          fetch(`${API_BASE_URL}/api/leads/business-options`),
+          fetch(`${API_BASE_URL}/api/leads/industry-options`)
         ])
         
         const businessData: BusinessOptions = await businessRes.json()
@@ -115,7 +116,7 @@ export default function Home() {
         return id;
       })();
       
-      const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/leads/search', {
+      const response = await fetch(`${API_BASE_URL}/api/leads/search`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -168,7 +169,7 @@ export default function Home() {
     setError('')
     
     try {
-      const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/leads/export/csv', {
+      const response = await fetch(`${API_BASE_URL}/api/leads/export/csv`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -215,7 +216,7 @@ export default function Home() {
     setError('')
     
     try {
-      const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/leads/export/excel', {
+      const response = await fetch(`${API_BASE_URL}/api/leads/export/excel`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -250,7 +251,7 @@ export default function Home() {
   const formatDate = (timestamp: number) => {
     return new Date(timestamp * 1000).toLocaleDateString()
   }
-  
+
   const handleHideTier4Tip = () => {
     setShowTier4Tip(false)
     localStorage.setItem('hideTier4Tip', 'true')
@@ -274,7 +275,7 @@ export default function Home() {
         <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded mb-6">
           <div className="flex items-start">
             <span className="text-xl mr-3">💡</span>
-            <div>
+              <div>
               <p className="text-sm font-semibold text-blue-800 mb-1">Pro Tips:</p>
               <ul className="text-sm text-blue-700 space-y-1 list-disc list-inside">
                 <li>Use specific terms like &quot;struggling&quot;, &quot;can&apos;t&quot;, &quot;need help&quot;, &quot;looking for&quot;</li>
@@ -286,10 +287,10 @@ export default function Home() {
 
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                 Business Type
-              </label>
+                </label>
                 <select
                   value={selectedBusiness}
                   onChange={(e) => handleBusinessChange(e.target.value)}
@@ -482,6 +483,10 @@ export default function Home() {
     </div>
   )
 }
+
+
+
+
 
 
 
