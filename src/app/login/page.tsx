@@ -1,7 +1,8 @@
-'use client'
+use client'
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { API_BASE_URL } from '@/config/api'
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -34,7 +35,7 @@ export default function Login() {
       // Check if admin credentials
       if (formData.email === 'szzein2005@gmail.com' && formData.password === 'Plokplok1') {
         // Use real backend admin authentication
-        const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/admin/login', {
+        const response = await fetch(`${API_BASE_URL}/api/auth/admin/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -86,7 +87,7 @@ export default function Login() {
       }
       
       // If no frontend user found, try demo login as fallback
-      const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/demo-login', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/demo-login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -199,3 +200,4 @@ export default function Login() {
     </div>
   )
 }
+
