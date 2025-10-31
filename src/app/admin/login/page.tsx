@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { API_BASE_URL } from '@/config/api'
 
 export default function AdminLogin() {
   const [formData, setFormData] = useState({
@@ -31,7 +32,7 @@ export default function AdminLogin() {
     }
 
     try {
-      const response = await fetch('https://hope-backend-final-2-production.up.railway.app/api/auth/admin/login', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/admin/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
