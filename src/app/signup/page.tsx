@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { API_BASE_URL } from '@/config/api'
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -40,48 +41,31 @@ export default function Signup() {
     }
 
     try {
-      // Frontend beta code validation
-      const validBetaCodes = [
-        'HOPE-77CTG8WK',
-        'HOPE-SZ9VFODG', 
-        'HOPE-PRBSU3HJ',
-        'HOPE-CVLN3NCA',
-        'HOPE-FJCACC89',
-        'HOPE-UDB9CA93',
-        'HOPE-XT3YNX27',
-        'HOPE-DOAXG25Q',
-        'HOPE-D8IFP4GR',
-        'HOPE-0S4FNMFN'
-      ]
+      // Call backend signup API
+      const response = await fetch(`${API_BASE_URL}/api/auth/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          beta_code: formData.betaCode.toUpperCase(),
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          company: formData.company || null
+        }),
+      })
       
-      if (!validBetaCodes.includes(formData.betaCode.toUpperCase())) {
-        throw new Error('Invalid beta code')
+      const data = await response.json()
+      
+      if (!response.ok) {
+        // Handle backend validation errors
+        throw new Error(data.detail || 'Failed to create account. Please try again.')
       }
       
-      // Check if beta code was already used (stored in localStorage)
-      const usedCodes = JSON.parse(localStorage.getItem('usedBetaCodes') || '[]')
-      if (usedCodes.includes(formData.betaCode.toUpperCase())) {
-        throw new Error('Beta code already used')
-      }
-      
-      // Create user account (frontend-only for now)
-      const userData = {
-        id: Date.now(),
-        email: formData.email,
-        name: formData.name,
-        company: formData.company,
-        beta_code: formData.betaCode.toUpperCase(),
-        is_active: true,
-        created_at: new Date().toISOString()
-      }
-      
-      // Store user data
-      localStorage.setItem('user', JSON.stringify(userData))
-      localStorage.setItem('token', 'demo_token_' + Date.now())
-      
-      // Mark beta code as used
-      usedCodes.push(formData.betaCode.toUpperCase())
-      localStorage.setItem('usedBetaCodes', JSON.stringify(usedCodes))
+      // Store user data and token from backend response
+      localStorage.setItem('user', JSON.stringify(data.user))
+      localStorage.setItem('token', data.access_token)
       
       // Redirect to dashboard
       window.location.href = '/dashboard'
