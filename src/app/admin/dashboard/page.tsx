@@ -138,33 +138,30 @@ export default function AdminDashboard() {
   const [metricsLoading, setMetricsLoading] = useState(false)
 
   useEffect(() => {
-    // TEMPORARILY DISABLED - Remove comments below to restore login check
     // Check if admin is logged in
-    // const adminData = localStorage.getItem('admin')
-    // const adminToken = localStorage.getItem('admin_token')
+    const adminData = localStorage.getItem('admin')
+    const adminToken = localStorage.getItem('admin_token')
     
-    // console.log('Dashboard check - adminData:', adminData)
-    // console.log('Dashboard check - adminToken:', adminToken)
+    console.log('Dashboard check - adminData:', adminData)
+    console.log('Dashboard check - adminToken:', adminToken)
     
-    // if (!adminData || !adminToken) {
-    //   console.log('Redirecting to admin login - missing data')
-    //   window.location.href = '/admin/login'
-    //   return
-    // }
+    if (!adminData || !adminToken) {
+      console.log('Redirecting to admin login - missing data')
+      window.location.href = '/admin/login'
+      return
+    }
     
-    // try {
-    //   const parsedAdmin = JSON.parse(adminData)
-    //   console.log('Parsed admin data:', parsedAdmin)
-    //   setAdmin(parsedAdmin)
-    // } catch (error) {
-    //   console.error('Error parsing admin data:', error)
-    //   console.log('Redirecting to admin login - parse error')
-    //   window.location.href = '/admin/login'
-    // }
-    
-    // Load data without requiring login (TEMPORARY)
+    try {
+      const parsedAdmin = JSON.parse(adminData)
+      console.log('Parsed admin data:', parsedAdmin)
+      setAdmin(parsedAdmin)
     loadData()
     loadMetricsData()
+    } catch (error) {
+      console.error('Error parsing admin data:', error)
+      console.log('Redirecting to admin login - parse error')
+      window.location.href = '/admin/login'
+    }
   }, [])
 
   const loadData = async () => {
@@ -183,8 +180,12 @@ export default function AdminDashboard() {
         setUsers(usersData)
       }
       
-      // Load beta codes (TEMPORARILY PUBLIC - no auth header needed)
-      const codesResponse = await fetch(`${API_BASE_URL}/api/admin/beta-codes`)
+      // Load beta codes
+      const codesResponse = await fetch(`${API_BASE_URL}/api/admin/beta-codes`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
       
       if (codesResponse.ok) {
         const codesData = await codesResponse.json()
@@ -232,11 +233,13 @@ export default function AdminDashboard() {
 
   const generateBetaCodes = async () => {
     try {
-      // TEMPORARILY PUBLIC - no auth token needed
+      const token = localStorage.getItem('admin_token')
+      
       const response = await fetch(`${API_BASE_URL}/api/admin/generate-beta-codes`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
           quantity: newCodeQuantity
